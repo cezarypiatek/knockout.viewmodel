@@ -401,6 +401,16 @@
                         viewModelObj.pushFromModel(modelObj[p]);
                     }
                 }
+                //INFO: Fix viewmodel elements order to preserve order from model
+                var orderMap = {};
+                modelObj.forEach(function(el, index) {
+                    orderMap[el[idName]] = index;
+                });
+                viewModelObj.sort(function (a, b) {
+                    var aId = unwrap(a[idName]);
+                    var bId = unwrap(b[idName]);
+                    return orderMap[aId] - orderMap[bId];
+                });
             }
             else {//no id specified, replace old array items with new array items
                 tempArray = [];
